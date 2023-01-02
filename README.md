@@ -30,3 +30,7 @@ successful authentication occurs, e.g.
 for each character in the valid alphabet
 4. If a password attempt succesfully authenticates, add the guess character to the initial substring
 5. Repeat steps 3. and 4. until no guess character succesfully authenticates - the initial substring is now complete!
+
+## TODO
+
+- [ ] Support parallel brute-forcing
