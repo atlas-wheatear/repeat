@@ -26,7 +26,7 @@ def __test_all_candidate_strings(so_far: str, legal_chars: str, function: repeat
             return candiate_string
 
 
-def __find_match(initial: str, legal_chars: str, function: repeater_callable, max_length: int):
+def __find_match(initial: str, legal_chars: str, function: repeater_callable, max_length: int) -> str:
     so_far = initial if initial is not None else ""
     max_suffix_chars = max_length - len(so_far)
     for _ in range(max_suffix_chars + 1):
@@ -41,7 +41,7 @@ def __find_match(initial: str, legal_chars: str, function: repeater_callable, ma
 def repeat(legal_chars: str, max_length: int):
     def decorator(function: repeater_callable):
         @wraps(function)
-        def wrapper(initial: str = None):
+        def wrapper(initial: str = None) -> str:
             return __find_match(
                 initial,
                 legal_chars,
