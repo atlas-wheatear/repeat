@@ -15,13 +15,13 @@ class MaxLengthReachedException(Exception):
         )
 
 
-def __candiate_string_generator(initial: str, legal_chars: str):
+def __candiate_string_generator(so_far: str, legal_chars: str):
     for char in legal_chars:
-        yield initial + char
+        yield so_far + char
 
 
-def __test_all_candidate_strings(initial: str, legal_chars: str, function: repeater_callable):
-    for candiate_string in __candiate_string_generator(initial, legal_chars):
+def __test_all_candidate_strings(so_far: str, legal_chars: str, function: repeater_callable):
+    for candiate_string in __candiate_string_generator(so_far, legal_chars):
         if function(candiate_string):
             return candiate_string
 
@@ -29,10 +29,10 @@ def __test_all_candidate_strings(initial: str, legal_chars: str, function: repea
 def __find_match(initial: str, legal_chars: str, function: repeater_callable, max_length: int):
     so_far = initial if initial is not None else ""
     max_suffix_chars = max_length - len(so_far)
-    for _ in range(max_suffix_chars):
-        match = __test_all_candidate_strings(initial, legal_chars, function)
+    for _ in range(max_suffix_chars + 1):
+        match = __test_all_candidate_strings(so_far, legal_chars, function)
         if match is None:
-            return match
+            return so_far
         else:
             so_far = match
     raise MaxLengthReachedException(max_length, so_far)
