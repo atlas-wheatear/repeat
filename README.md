@@ -55,22 +55,7 @@ A better example will follow.
 
 ## Example Vulnerability
 
-A rather contrived example follows.
-
-Suppose that a _blind SQL Injection_ vulnerability exists in an authentication form using MySQL, that permits comparisons on confidential fields,
-but not direct exfiltration. An example concatenation based query could be:
-
-```sql
-SELECT * FROM users WHERE username = 'admin' AND password = '?' 
-```
-
-To determine if the password starts with 'password', one could submit a _time-based blind SQL Injection_ payload to the password parameter:
-
-```sql
-' UNION SELECT IF(SUBSTRING(user_password,1,1) = CHAR(50),BENCHMARK(5000000,ENCODE('MSG','by 5 seconds')),null) FROM users WHERE user_id = 1;
-```
-
-[Source](https://owasp.org/www-community/attacks/Blind_SQL_Injection).
+See the example folder in this repository, containing a totally unrealistic blind-SQL injection vulnerability.
 
 ## TODO
 
