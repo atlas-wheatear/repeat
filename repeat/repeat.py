@@ -34,6 +34,7 @@ def __find_match(initial: str, legal_chars: str, function: repeater_callable, ma
         if match is None:
             return so_far
         else:
+            print(match)
             so_far = match
     raise MaxLengthReachedException(max_length, so_far)
 
