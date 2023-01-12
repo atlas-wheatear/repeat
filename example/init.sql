@@ -4,4 +4,4 @@ CREATE TABLE users (
 );
 
 INSERT INTO users VALUES
-    ('admin', 'FLAG{th1s_41nt-g0oD-c0d3}');
+    ('admin', 'th1s_41nt-g0oD-c0d3');

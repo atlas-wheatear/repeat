@@ -25,7 +25,7 @@ def password_is_right(password: str) -> bool:
 
 @app.route('/', methods=['POST'])
 def vuln_sql():
-    password = request.json.get('password', '')
+    password = dict(request.json).get('password', '')
     if password_is_right(password):
         return 'SUCCESS', 200
     else:
