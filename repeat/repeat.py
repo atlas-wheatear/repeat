@@ -62,6 +62,6 @@ def repeat(legal_chars: str, max_length: int):
                 legal_chars,
                 function,
                 max_length
-            ).repeat(initial) 
+            ).repeat(initial)
         return wrapper
     return decorator
