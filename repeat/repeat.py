@@ -39,9 +39,7 @@ class __Repeater:
             if self.function(candiate_string):
                 return candiate_string
 
-    def repeat(self, initial: str) -> str:
-        self.so_far = initial if initial is not None else ""
-        max_suffix_chars = self.max_length - len(self.so_far)
+    def __find_match(self, max_suffix_chars: int) -> str:
         for _ in range(max_suffix_chars + 1):
             match = self.__test_all_candidate_strings()
             if match is None:
@@ -52,6 +50,11 @@ class __Repeater:
             self.max_length,
             self.so_far
         )
+
+    def repeat(self, initial: str) -> str:
+        self.so_far = initial if initial is not None else ""
+        max_suffix_chars = self.max_length - len(self.so_far)
+        return self.__find_match(max_suffix_chars)
 
 
 def repeat(legal_chars: str, max_length: int):
