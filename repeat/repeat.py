@@ -57,20 +57,53 @@ class __Repeater:
         return self.__find_match(max_suffix_chars)
 
 
-def __get_repeater_class(parallelism: int) -> __Repeater:
+class __ParallelRepeater(__Repeater):
+    def __init__(
+        self,
+        legal_chars: str,
+        function: repeater_callable,
+        max_length: int,
+        parallelism: int
+    ):
+        self.parallelism = parallelism
+        super().__init__(
+            legal_chars,
+            function,
+            max_length
+        )
+
+
+def __get_repeater_class(
+    legal_chars: str,
+    max_length: int,
+    function: repeater_callable,
+    parallelism: int
+) -> __Repeater:
     if parallelism is None:
-        return __Repeater
+        return __Repeater(
+            legal_chars,
+            function,
+            max_length
+        )
+    else:
+        return __ParallelRepeater(
+            legal_chars,
+            function,
+            max_length,
+            parallelism
+        )
 
 
 def repeat(legal_chars: str, max_length: int):
     def decorator(function: repeater_callable):
         @wraps(function)
         def wrapper(initial: str = None, parallelism: int = None) -> str:
-            repeater_class = __get_repeater_class(parallelism)
-            return repeater_class(
+            repeater_class = __get_repeater_class(
                 legal_chars,
+                max_length,
                 function,
-                max_length
-            ).repeat(initial)
+                parallelism
+            )
+            return repeater_class.repeat(initial)
         return wrapper
     return decorator
