@@ -57,11 +57,17 @@ class __Repeater:
         return self.__find_match(max_suffix_chars)
 
 
+def __get_repeater_class(parallelism: int) -> __Repeater:
+    if parallelism is None:
+        return __Repeater
+
+
 def repeat(legal_chars: str, max_length: int):
     def decorator(function: repeater_callable):
         @wraps(function)
-        def wrapper(initial: str = None) -> str:
-            return __Repeater(
+        def wrapper(initial: str = None, parallelism: int = None) -> str:
+            repeater_class = __get_repeater_class(parallelism)
+            return repeater_class(
                 legal_chars,
                 function,
                 max_length
