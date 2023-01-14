@@ -15,39 +15,53 @@ class MaxLengthReachedException(Exception):
         )
 
 
-def __candiate_string_generator(so_far: str, legal_chars: str):
-    for char in legal_chars:
-        yield so_far + char
+class __Repeater:
+    def __init__(self, legal_chars: str, function: repeater_callable, max_length: int):
+        self.legal_chars = legal_chars
+        self.max_length = max_length
+        self.function = function
 
+    @property
+    def so_far(self):
+        return self.__so_far
 
-def __test_all_candidate_strings(so_far: str, legal_chars: str, function: repeater_callable):
-    for candiate_string in __candiate_string_generator(so_far, legal_chars):
-        if function(candiate_string):
-            return candiate_string
+    @so_far.setter
+    def so_far(self, value):
+        self.__so_far = value
+        print(self.__so_far)
 
+    def __candiate_string_generator(self):
+        for char in self.legal_chars:
+            yield self.so_far + char
 
-def __find_match(initial: str, legal_chars: str, function: repeater_callable, max_length: int) -> str:
-    so_far = initial if initial is not None else ""
-    max_suffix_chars = max_length - len(so_far)
-    for _ in range(max_suffix_chars + 1):
-        match = __test_all_candidate_strings(so_far, legal_chars, function)
-        if match is None:
-            return so_far
-        else:
-            print(match)
-            so_far = match
-    raise MaxLengthReachedException(max_length, so_far)
+    def __test_all_candidate_strings(self):
+        for candiate_string in self.__candiate_string_generator():
+            if self.function(candiate_string):
+                return candiate_string
+
+    def repeat(self, initial: str) -> str:
+        self.so_far = initial if initial is not None else ""
+        max_suffix_chars = self.max_length - len(self.so_far)
+        for _ in range(max_suffix_chars + 1):
+            match = self.__test_all_candidate_strings()
+            if match is None:
+                return self.so_far
+            else:
+                self.so_far = match
+        raise MaxLengthReachedException(
+            self.max_length,
+            self.so_far
+        )
 
 
 def repeat(legal_chars: str, max_length: int):
     def decorator(function: repeater_callable):
         @wraps(function)
         def wrapper(initial: str = None) -> str:
-            return __find_match(
-                initial,
+            return __Repeater(
                 legal_chars,
                 function,
                 max_length
-            ) 
+            ).repeat(initial) 
         return wrapper
     return decorator
