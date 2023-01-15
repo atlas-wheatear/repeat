@@ -30,7 +30,8 @@ Then decorate it with the `repeat` method from the repeat package, giving the fo
 - the maximum length of the secret string attempts, before an iteration is halted
 
 This produces a function, that when called, performs this attack. An optional initial string may be provided
-as a keyword argument e.g. _**HTB{**_ .
+as the keyword argument `initial`, e.g. _**HTB{**_ . If parallelism is desired, it is supported by specifying the number of
+parallel threads (as an integer) as the keyword argument `parallelism` (though see the health warning below!)
 
 
 ```python
@@ -46,12 +47,24 @@ def get_flag(candidate_string: str) -> bool:
     # this is a silly example
     return FLAG.startswith(candidate_string)
 
-print(
-    get_flag(initial='HTB{')
+flag = get_flag(
+    initial='HTB{', # the flag must start like all other HTB flags
+    parallelism=5 # use 5 parallel threads
 )
+print(flag)
 ```
 
 A better example will follow.
+
+## A Note on Parallelism
+
+Parallelism can give wrong results on certain servers, especially for higher numbers of parallel threads against
+servers with low resources.
+
+Obviously incorrect behaviour includes:
+- giving different results each time it is run.
+- giving a very short string (just 1 or 2 characters)
+- giving a long string very fast, usually containing the same character over and over
 
 ## Example Vulnerability
 
@@ -60,4 +73,4 @@ See the example folder in this repository, containing a totally unrealistic blin
 ## TODO
 
 - [ ] Make PyPI package
-- [ ] Support parallel brute-forcing
+- [x] Support parallel brute-forcing

