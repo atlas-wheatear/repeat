@@ -56,6 +56,10 @@ print(flag)
 
 A better example will follow.
 
+## A Note on Parallelism
+
+Parallelism can give wrong results on certain servers, especially for higher numbers of parallel threads.
+
 ## Example Vulnerability
 
 See the example folder in this repository, containing a totally unrealistic blind-SQL injection vulnerability.
