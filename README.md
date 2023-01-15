@@ -30,7 +30,8 @@ Then decorate it with the `repeat` method from the repeat package, giving the fo
 - the maximum length of the secret string attempts, before an iteration is halted
 
 This produces a function, that when called, performs this attack. An optional initial string may be provided
-as a keyword argument e.g. _**HTB{**_ .
+as the keyword argument `initial`, e.g. _**HTB{**_ . If parallelism is desired, it is supported by specifying the number of
+parallel threads (as an integer) as the keyword argument `parallelism`.
 
 
 ```python
