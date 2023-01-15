@@ -58,7 +58,8 @@ A better example will follow.
 
 ## A Note on Parallelism
 
-Parallelism can give wrong results on certain servers, especially for higher numbers of parallel threads.
+Parallelism can give wrong results on certain servers, especially for higher numbers of parallel threads against
+servers with low resources.
 
 Obviously incorrect behaviour includes:
 - giving different results each time it is run.
