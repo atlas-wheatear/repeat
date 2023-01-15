@@ -161,9 +161,27 @@ def __get_repeater_class(
 
 
 def repeat(legal_chars: str, max_length: int):
+    """
+    The decorator that manages the calls to the given function.
+
+    Arguments:
+    - legal_chars   a string, containing all of the chars from which the
+                    secret string may be formed
+    - max_length    the max length of a string, before iteration fails
+                    with a MaxLengthReachedException
+    """
     def decorator(function: repeater_callable):
         @wraps(function)
         def wrapper(initial: str = None, parallelism: int = None) -> str:
+            """
+            The decorated repeated function. Now a manager function, with
+            different (keyword) arguments.
+
+            Arguments:
+            - initial       An (optional) initial string from which to start
+            - parallelism   The (optional) number of parallel threads to use, if
+                            parallelism is desired
+            """
             repeater_class = __get_repeater_class(
                 legal_chars,
                 max_length,
