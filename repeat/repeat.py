@@ -1,4 +1,4 @@
-import threading
+import threading, random
 
 from functools import wraps
 from typing import Callable, List
@@ -99,9 +99,15 @@ class __ParallelRepeater(__Repeater):
             max_length
         )
 
+    def __shuffle_legal_chars(self) -> str:
+        list_legal_chars = list(self.legal_chars)
+        random.shuffle(list_legal_chars)
+        return ''.join(list_legal_chars)
+
     def __partition_legal_chars(self):
+        shuffled_legal_chars = self.__shuffle_legal_chars()
         return [
-            self.legal_chars[i::self.parallelism]
+            shuffled_legal_chars[i::self.parallelism]
             for i in range(self.parallelism)
         ]
 
