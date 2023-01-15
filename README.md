@@ -61,4 +61,4 @@ See the example folder in this repository, containing a totally unrealistic blin
 ## TODO
 
 - [ ] Make PyPI package
-- [ ] Support parallel brute-forcing
+- [x] Support parallel brute-forcing
