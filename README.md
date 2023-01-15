@@ -47,9 +47,11 @@ def get_flag(candidate_string: str) -> bool:
     # this is a silly example
     return FLAG.startswith(candidate_string)
 
-print(
-    get_flag(initial='HTB{')
+flag = get_flag(
+    initial='HTB{', # the flag must start like all other HTB flags
+    parallelism=5 # use 5 parallel threads
 )
+print(flag)
 ```
 
 A better example will follow.
