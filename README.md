@@ -60,6 +60,11 @@ A better example will follow.
 
 Parallelism can give wrong results on certain servers, especially for higher numbers of parallel threads.
 
+Obviously incorrect behaviour includes:
+- giving different results each time it is run.
+- giving a very short string (just 1 or 2 characters)
+- giving a long string very fast, usually containing the same character over and over
+
 ## Example Vulnerability
 
 See the example folder in this repository, containing a totally unrealistic blind-SQL injection vulnerability.
