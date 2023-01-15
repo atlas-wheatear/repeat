@@ -92,6 +92,7 @@ class __ParallelRepeater(__Repeater):
         parallelism: int
     ):
         self.parallelism = parallelism
+        self.match = None
         super().__init__(
             legal_chars,
             function,
