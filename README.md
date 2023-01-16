@@ -1,14 +1,24 @@
 # Wheatear Repeat
 
-## Use-Case
+## Summary
 
 This library automates a specific category of "simplified" brute-force searches, exploiting
 a vulnerability by which a string can be determined to start with an initial substring, without
 providing the entire string.
 
+## Requirements
+
+_Three_ conditions are necessary for this library to be applicable to deducing a secret string (faster
+than a regular brute-force search):
+
+1. No rate limiting is in place
+2. The permitted character set, from which the secret string was formed, is known (e.g. ASCII-printable)
+3. A vulnerability exists that permits an attacker to determine if the secret string _starts_ with an arbitrary guess
+    - this must also be scriptable as a boolean _"test-function"_ in python
+
 ## Explanation
 
-A secret string can be exfiltrated by repeated tests of whether it starts with an arbitrary substring, given knowledge
+A secret string can be exfiltrated by repeated tests of whether it starts with an arbitrary guess, given knowledge
 of the character set from which it may have been built.
 
 1. Simply try each character in the legal character set until one tests positive for being the first.
