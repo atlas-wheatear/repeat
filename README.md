@@ -19,7 +19,7 @@ than a regular brute-force search):
 ## Explanation
 
 A secret string can be exfiltrated by repeated tests of whether it starts with an arbitrary guess, given knowledge
-of the character set from which it may have been built.
+of the character set from which it was built.
 
 1. Simply try each character in the legal character set until one tests positive for being the first.
 2. Then try that character repeatedly suffixed with 1 different character from the legal subset until a 2-length string
