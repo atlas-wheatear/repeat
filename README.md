@@ -49,8 +49,8 @@ import string
 from repeat import repeat
 
 @repeat(
-    string.ascii_letters + string.digits + '-_}',
-    30
+    string.ascii_letters + string.digits + '-_}', # the permitted character set
+    30 # the maximum length of guess before giving up
 )
 def get_flag(candidate_string: str) -> bool:
     FLAG = 'HTB{fl4gs-4r3_fun}'
