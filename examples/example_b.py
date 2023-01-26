@@ -1,5 +1,5 @@
 import string, requests
-from repeat import repeat
+from wheatear_repeat import repeat
 
 # first run docker-compose up in a terminal
 

@@ -27,6 +27,14 @@ tests positive
 3. Repeat  by adding 1 different character to an n-length string from the legal subset, while positive tests still occur.
 4. If an iteration does not produce a positive test, this is the reversed secret string
 
+## Installing
+
+From the root directory (ideally in a virtual environment), install locally with the following command:
+
+```bash
+python3 -m pip install -e .
+```
+
 ## Usage
 
 Create a python function that takes a _candidate string_, performs a test (e.g. a blind SQL injection), and returns:
@@ -46,7 +54,7 @@ parallel threads (as an integer) as the keyword argument `parallelism` (though s
 
 ```python
 import string
-from repeat import repeat
+from wheatear_repeat import repeat
 
 @repeat(
     string.ascii_letters + string.digits + '-_}', # the permitted character set
@@ -80,7 +88,21 @@ Obviously incorrect behaviour includes:
 
 See the example folder in this repository, containing a totally unrealistic blind-SQL injection vulnerability.
 
+## Running the tests
+
+First install the testing requirements:
+
+```bash
+python3 -m pip install -r test/requirements.txt
+```
+
+Then run the tests:
+
+```bash
+python3 -m pytest test
+```
+
 ## TODO
 
-- [ ] Make PyPI package
+- [x] Make PyPI package
 - [x] Support parallel brute-forcing

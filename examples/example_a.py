@@ -1,5 +1,5 @@
 import string
-from repeat import repeat
+from wheatear_repeat import repeat
 
 @repeat(
     string.ascii_letters + string.digits + '-_}',

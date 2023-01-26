@@ -1,7 +1,7 @@
 import pytest, string
 
 
-from ..repeat import repeat
+from wheatear_repeat import repeat
 
 
 def test_basic_max_length():
