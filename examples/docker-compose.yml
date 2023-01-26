@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    build: example
+    build: docker
     ports:
       - "8080:5000"
     platform: linux/amd64
@@ -11,4 +11,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - './example/init.sql:/docker-entrypoint-initdb.d/init.sql'
+      - './docker/init.sql:/docker-entrypoint-initdb.d/init.sql'
