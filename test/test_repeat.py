@@ -10,7 +10,7 @@ def test_basic_max_length():
     def test_function(candidate_string: str) -> bool:
         return "lol".startswith(candidate_string)
 
-    test_function.characters = string.ascii_lowercase
+    test_function.legal_chars = string.ascii_lowercase
     test_function.max_length = 3
     match = test_function()
     assert match == 'lol'
@@ -21,7 +21,7 @@ def test_basic_max_length_parallel():
     def test_function(candidate_string: str) -> bool:
         return "lol".startswith(candidate_string)
 
-    test_function.characters = string.ascii_lowercase
+    test_function.legal_chars = string.ascii_lowercase
     test_function.max_length = 3
     test_function.parallelism = 5
     match = test_function()
@@ -33,7 +33,7 @@ def test_max_length_exceeded():
     def test_function(candidate_string: str) -> bool:
         return False
 
-    test_function.characters = string.ascii_lowercase
+    test_function.legal_chars = string.ascii_lowercase
     test_function.max_length = 3
     test_function.parallelism = 5
 

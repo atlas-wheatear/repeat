@@ -7,7 +7,7 @@ def get_flag(candidate_string: str) -> bool:
     # this is a silly example
     return FLAG.startswith(candidate_string)
 
-get_flag.characters = string.ascii_letters + string.digits + '-_}',
+get_flag.legal_chars = string.ascii_letters + string.digits + '-_}',
 get_flag.max_length = 30
 get_flag.initial = 'HTB{'
 
