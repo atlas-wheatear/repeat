@@ -142,7 +142,7 @@ class _ParallelRepeater(_Repeater):
 class Repeatable:
     function: repeater_callable
     parallelism: Optional[int] = None
-    initial: Optional[str] = ''
+    initial: Optional[str] = None
     legal_chars: Optional[str] = ''
     max_length: Optional[int] = 20
 
