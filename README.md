@@ -56,19 +56,18 @@ parallel threads (as an integer) as the keyword argument `parallelism` (though s
 import string
 from wheatear_repeat import repeat
 
-@repeat(
-    string.ascii_letters + string.digits + '-_}', # the permitted character set
-    30 # the maximum length of guess before giving up
-)
+@repeat
 def get_flag(candidate_string: str) -> bool:
     FLAG = 'HTB{fl4gs-4r3_fun}'
     # this is a silly example
     return FLAG.startswith(candidate_string)
 
-flag = get_flag(
-    initial='HTB{', # the flag must start like all other HTB flags
-    parallelism=5 # use 5 parallel threads
-)
+get_flag.characters = string.ascii_letters + string.digits + '-_}', # the permitted character set
+get_flag.max_length = 30 # the maximum length of guess before giving up
+get_flag.initial = 'HTB{' # the flag must start like all other HTB flags
+get_flag.parallelism = 5 # use 5 parallel threads
+
+flag = get_flag()
 print(flag)
 ```
 

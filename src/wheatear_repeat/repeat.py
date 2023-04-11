@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import threading, random
 
-from functools import wraps
-from typing import Callable, List
+from dataclasses import dataclass
+from typing import Callable, List, Optional
 
 
 repeater_callable = Callable[[str], bool]
@@ -17,11 +19,12 @@ class MaxLengthReachedException(Exception):
         )
 
 
-class __Repeater:
-    def __init__(self, legal_chars: str, function: repeater_callable, max_length: int):
-        self.legal_chars = legal_chars
-        self.max_length = max_length
-        self.function = function
+class _Repeater:
+    def __init__(self, repeatable: Repeatable):
+        self.initial = repeatable.initial
+        self.legal_chars = repeatable.legal_chars
+        self.max_length = repeatable.max_length
+        self.function = repeatable.function
 
     @property
     def so_far(self):
@@ -53,13 +56,13 @@ class __Repeater:
             self.so_far
         )
 
-    def repeat(self, initial: str) -> str:
-        self.so_far = initial if initial is not None else ""
+    def repeat(self) -> str:
+        self.so_far = self.initial if self.initial is not None else ""
         max_suffix_chars = self.max_length - len(self.so_far)
         return self.find_match(max_suffix_chars)
 
 
-class __ParallelRepeater(__Repeater):
+class _ParallelRepeater(_Repeater):
     class __RepeatThread(threading.Thread):
         def __init__(self, manager, so_far: str, given_chars: List[str], *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -84,20 +87,10 @@ class __ParallelRepeater(__Repeater):
                 if self.function(candiate_string):
                     self.manager.match_found(candiate_string)
 
-    def __init__(
-        self,
-        legal_chars: str,
-        function: repeater_callable,
-        max_length: int,
-        parallelism: int
-    ):
-        self.parallelism = parallelism
+    def __init__(self, repeatable: Repeatable):
+        self.parallelism = repeatable.parallelism
         self.match = None
-        super().__init__(
-            legal_chars,
-            function,
-            max_length
-        )
+        super().__init__(repeatable)
 
     def __shuffle_legal_chars(self) -> str:
         list_legal_chars = list(self.legal_chars)
@@ -145,55 +138,27 @@ class __ParallelRepeater(__Repeater):
         )
 
 
-def __get_repeater_class(
-    legal_chars: str,
-    max_length: int,
-    function: repeater_callable,
-    parallelism: int
-) -> __Repeater:
-    if parallelism is None:
-        return __Repeater(
-            legal_chars,
-            function,
-            max_length
-        )
-    else:
-        return __ParallelRepeater(
-            legal_chars,
-            function,
-            max_length,
-            parallelism
-        )
+@dataclass
+class Repeatable:
+    function: repeater_callable
+    parallelism: Optional[int] = None
+    initial: Optional[str] = None
+    legal_chars: Optional[str] = ''
+    max_length: Optional[int] = 20
+
+    def __call__(self) -> str:
+        repeater = self.__get_repeater_class()
+        return repeater.repeat()
+
+    def __get_repeater_class(self) -> _Repeater:
+        if self.parallelism is None:
+            return _Repeater(self)
+        else:
+            return _ParallelRepeater(self)
 
 
-def repeat(legal_chars: str, max_length: int):
+def repeat(function: repeater_callable) -> Repeatable:
     """
     The decorator that manages the calls to the given function.
-
-    Arguments:
-    - legal_chars   a string, containing all of the chars from which the
-                    secret string may be formed
-    - max_length    the max length of a string, before iteration fails
-                    with a MaxLengthReachedException
     """
-    def decorator(function: repeater_callable):
-        @wraps(function)
-        def wrapper(initial: str = None, parallelism: int = None) -> str:
-            """
-            The decorated repeated function. Now a manager function, with
-            different (keyword) arguments.
-
-            Arguments:
-            - initial       An (optional) initial string from which to start
-            - parallelism   The (optional) number of parallel threads to use, if
-                            parallelism is desired
-            """
-            repeater_class = __get_repeater_class(
-                legal_chars,
-                max_length,
-                function,
-                parallelism
-            )
-            return repeater_class.repeat(initial)
-        return wrapper
-    return decorator
+    return Repeatable(function=function)
