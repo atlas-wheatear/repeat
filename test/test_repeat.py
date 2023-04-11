@@ -31,7 +31,7 @@ def test_basic_max_length_parallel():
 def test_max_length_exceeded():
     @repeat
     def test_function(candidate_string: str) -> bool:
-        return False
+        return True
 
     test_function.legal_chars = string.ascii_lowercase
     test_function.max_length = 3
